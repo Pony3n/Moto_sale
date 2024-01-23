@@ -1,3 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .models import Motorcycle
+
+def show_main(request):
+    motorcycles = Motorcycle.objects.all()
+    return render(request, 'motorcycles/index.html', {"motorcycles": motorcycles})

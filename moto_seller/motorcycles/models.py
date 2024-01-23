@@ -6,8 +6,8 @@ from django.db import models
 
 def validate_price(value):
     if value is not None:
-        value = str(value).replace(' ', '')  # удаляем пробелы
-        if not value.replace('.', '', 1).isdigit():  # проверяем, что значение состоит только из цифр и может содержать только одну точку
+        value = str(value).replace(' ', '')
+        if not value.replace('.', '', 1).isdigit():
             raise ValidationError('Цена должна содержать только цифры и может содержать только одну точку')
 
 
@@ -48,4 +48,5 @@ class Motorcycle(models.Model):
         verbose_name_plural = 'Мотоциклы'
 
 #TODO Написать так поле price, чтобы оно принимало значения с пробелами между цифр
+#TODO сделать поле выбора типа мотоцикла ChooseField
 
