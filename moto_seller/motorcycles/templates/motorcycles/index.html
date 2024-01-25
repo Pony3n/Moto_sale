@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Hello Moto!</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'motorcycles/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/styles.css' %}">
+{% for moto in motorcycles %}
+<div>
+  <h2>{{ moto.model_name }}, {{ moto.date_of_issue }}</h2>
+  <p>Тип: {{ moto.moto_type }}</p>
+  <p>Двигатель: {{ moto.engine }}</p>
+  <p>Коробка передач: {{ moto.transmission }}</p>
+  <p>В наличии: {{ moto.status }}</p>
+  <p>Комментарий продавца: {{ moto.seller_comment|linebreaks|truncatewords:30 }}</p>
+  <h2>Цена: {{ moto.price }}</h2>
+  <img src="{{ moto.image.url }}" alt="I DON'T KNOW!" class="moto_images">
+</div>
+{% endfor %}
+{% endblock %}
