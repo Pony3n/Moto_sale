@@ -38,7 +38,10 @@ class Motorcycle(models.Model):
         verbose_name="Цена в рублях",
         validators=[validate_price])
     seller_comment = models.TextField(blank=True, verbose_name='Комментарий продавца')
-    image = models.ImageField(blank=False, default='default_moto.jpg', upload_to='images/')
+    image = models.ImageField(blank=True,
+                              null=True,
+                              default='motorcycles/images/default_moto.jpg',
+                              upload_to='images/')
 
     def __str__(self):
         return self.model_name
@@ -50,5 +53,5 @@ class Motorcycle(models.Model):
 #TODO Написать так поле price, чтобы оно принимало значения с пробелами между цифр
 #TODO сделать поле выбора типа мотоцикла ChooseField
 #TODO настроить путь, чтобы отображалась картинка по умолчанию
-#TODO Разобраться, как заставить django найти статичный файл default_moto.jpg
+
 
