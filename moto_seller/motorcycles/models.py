@@ -1,14 +1,12 @@
 import datetime
+import os
+from decimal import Decimal, DecimalException
 
 from django.core.exceptions import ValidationError
 from django.db import models
-
-
-def validate_price(value):
-    if value is not None:
-        value = str(value).replace(' ', '')
-        if not value.replace('.', '', 1).isdigit():
-            raise ValidationError('Цена должна содержать только цифры и может содержать только одну точку')
+from django.conf import settings
+from django.core.files import File
+from django.core.validators import MinValueValidator
 
 
 class YearField(models.IntegerField):
@@ -24,8 +22,17 @@ class YearField(models.IntegerField):
 
 
 class Motorcycle(models.Model):
+    TYPE_CHOICES = [
+        ("КЛАС", "Классика"),
+        ("СП", "Спортивный Мотоцикл"),
+        ("КР", "Круизер"),
+        ("ТМ", "Тяжелый Мотоцикл"),
+        ("КРОС", "Кроссовый Мотоцикл"),
+        ("ЭН", "Туристический Эндуро"),
+        ("ПТ", "Питбайк"),
+    ]
     model_name = models.CharField(max_length=100, blank=False, verbose_name='Название модели')
-    moto_type = models.CharField(max_length=100, blank=False, verbose_name='Тип мотоцикла')
+    moto_type = models.CharField(max_length=100, blank=False, choices=TYPE_CHOICES, verbose_name='Тип мотоцикла')
     date_of_issue = YearField(blank=False, verbose_name='Дата производства')
     engine = models.CharField(max_length=100, blank=False, verbose_name='Двигатель')
     transmission = models.IntegerField(blank=False, verbose_name='Коробка передач')
@@ -36,12 +43,29 @@ class Motorcycle(models.Model):
         blank=False,
         null=False,
         verbose_name="Цена в рублях",
-        validators=[validate_price])
+        validators=[MinValueValidator])
     seller_comment = models.TextField(blank=True, verbose_name='Комментарий продавца')
-    image = models.ImageField(blank=True,
-                              null=True,
-                              default='motorcycles/images/default_moto.jpg',
-                              upload_to='images/')
+    image = models.ManyToManyField('ImageMoto', related_name='moto_images')
+
+    def save(self, *args, **kwargs):
+        if not self.image:
+            default_image_path = os.path.join(settings.BASE_DIR, 'motorcycles',
+                                              'static',
+                                              'motorcycles',
+                                              "images",
+                                              "default_moto.jpg")
+            with open(default_image_path, 'rb') as f:
+                self.image.save('default_moto.jpg', File(f), save=False)
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        super().clean()
+        if self.price:
+            cleaned_price = str(self.price).replace(',', '').replace(' ', '')
+            try:
+                self.price = Decimal(cleaned_price)
+            except DecimalException:
+                raise ValidationError({'price': "Неверный формат цены"})
 
     def __str__(self):
         return self.model_name
@@ -50,8 +74,13 @@ class Motorcycle(models.Model):
         verbose_name = 'Мотоцикл'
         verbose_name_plural = 'Мотоциклы'
 
+
+class ImageMoto(models.Model):
+    image = models.ImageField(upload_to="motorcycles/images/")
+
+
 #TODO Написать так поле price, чтобы оно принимало значения с пробелами между цифр
-#TODO сделать поле выбора типа мотоцикла ChooseField
-#TODO настроить путь, чтобы отображалась картинка по умолчанию
+#TODO Сделать отдельную страницу лота
+#TODO Разобратсья с MANY TO MANY field
 
 
