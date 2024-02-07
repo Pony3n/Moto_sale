@@ -1,5 +1,13 @@
+from django import forms
+from django.utils.html import mark_safe
 from django.contrib import admin
 
 from .models import Motorcycle
 
-admin.site.register(Motorcycle)
+
+class MotorcycleAdmin(admin.ModelAdmin):
+    list_display = ["model_name", "moto_type", "date_of_issue", "status"]
+    list_filter = ["moto_type", "date_of_issue", "status"]
+
+
+admin.site.register(Motorcycle, MotorcycleAdmin)

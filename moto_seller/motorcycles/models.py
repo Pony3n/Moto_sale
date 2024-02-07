@@ -6,7 +6,17 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.conf import settings
 from django.core.files import File
-from django.core.validators import MinValueValidator
+
+
+def validate_price(value):          #TODO Неработает валидация
+    if isinstance(value, str):
+        value = value.replace(',', '').replace(' ', '')
+    if value < Decimal('0'):
+        raise ValidationError('Цена не может быть отрицательной')
+    try:
+        value = Decimal(value)
+    except (TypeError, ValueError):
+        raise ValidationError("Введите корректное значение")
 
 
 class YearField(models.IntegerField):
@@ -42,10 +52,13 @@ class Motorcycle(models.Model):
         decimal_places=2,
         blank=False,
         null=False,
+        default=0,
         verbose_name="Цена в рублях",
-        validators=[MinValueValidator])
+        validators=[validate_price])
     seller_comment = models.TextField(blank=True, verbose_name='Комментарий продавца')
-    image = models.ManyToManyField('ImageMoto', related_name='moto_images')
+    image = models.ImageField(blank=True,
+                              null=True,
+                              upload_to='images/')
 
     def save(self, *args, **kwargs):
         if not self.image:
@@ -75,12 +88,7 @@ class Motorcycle(models.Model):
         verbose_name_plural = 'Мотоциклы'
 
 
-class ImageMoto(models.Model):
-    image = models.ImageField(upload_to="motorcycles/images/")
-
-
 #TODO Написать так поле price, чтобы оно принимало значения с пробелами между цифр
 #TODO Сделать отдельную страницу лота
-#TODO Разобратсья с MANY TO MANY field
 
 
