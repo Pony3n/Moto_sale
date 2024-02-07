@@ -6,12 +6,12 @@
   {% for moto in motorcycles %}
   <div class="moto_card">
     <h2><a href="{% url 'motorcycle_detail' pk=moto.pk %}">{{ moto.model_name }}, {{ moto.date_of_issue }}</a> </h2>
-    <p>Тип: {{ moto.moto_type }}</p>
-    <p>Двигатель: {{ moto.engine }}</p>
-    <p>Коробка передач: {{ moto.transmission }}</p>
-    <p>В наличии: {% if moto.status %}Да{% else %}Нет{% endif %}</p>
-    <p>Комментарий продавца: {{ moto.seller_comment|linebreaks|truncatewords:30 }}</p>
-    <h2>Цена: {{ moto.price }}</h2>
+    <p><strong>Тип:</strong> {{ moto.moto_type }}</p>
+    <p><strong>Двигатель:</strong> {{ moto.engine }}</p>
+    <p><strong>Коробка передач:</strong> {{ moto.transmission }}</p>
+    <p><strong>В наличии:</strong> {% if moto.status %}Да{% else %}Нет{% endif %}</p>
+    <p><strong>Комментарий продавца:</strong> {{ moto.seller_comment|linebreaks|truncatewords:30 }}</p>
+    <h2><strong>Цена:</strong> {{ moto.price }}</h2>
     <img src="{{ moto.image.url }}" alt="I DON'T KNOW!" class="moto_images">
   </div>
 {% endfor %}

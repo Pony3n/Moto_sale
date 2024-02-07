@@ -58,7 +58,7 @@ class Motorcycle(models.Model):
     seller_comment = models.TextField(blank=True, verbose_name='Комментарий продавца')
     image = models.ImageField(blank=True,
                               null=True,
-                              upload_to='images/')
+                              upload_to='images/')   #TODO Сделать картинки так, чтобы их можно было отдавать галлереей
 
     def save(self, *args, **kwargs):
         if not self.image:
@@ -89,6 +89,6 @@ class Motorcycle(models.Model):
 
 
 #TODO Написать так поле price, чтобы оно принимало значения с пробелами между цифр
-#TODO Сделать отдельную страницу лота
+
 
 
