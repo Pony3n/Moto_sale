@@ -1,0 +1,18 @@
+{% extends 'motorcycles/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/detail_page_styles.css' %}">
+    <div class="moto-detail-container">
+        <div class="moto-detail">
+            <h2>{{ moto.model_name }}</h2>
+            <p>Тип: {{ moto.moto_type }}</p>
+            <p>Дата производства: {{ moto.date_of_issue }}</p>
+            <p>Двигатель: {{ moto.engine }}</p>
+            <p>Коробка передач: {{ moto.transmission }}</p>
+            <p>В наличии: {% if moto.status %}Да{% else %}Нет{% endif %}</p>
+            <p>Цена: {{ moto.price }}</p>
+            <p>Комментарий продавца: {{ moto.seller_comment|linebreaks}}</p>
+            <img src="{{ moto.image.url }}" alt="I DON'T KNOW!" class="moto_images">
+        </div>
+    </div>
+{% endblock %}
