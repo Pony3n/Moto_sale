@@ -13,9 +13,9 @@
         <img src="{% static 'motorcycles/images/Logo.jpg' %}" alt="Здесь должно быть лого">
     </div>
     <ul>
+        <li><a href="{% url 'show_main' %}">Мотоциклы</a></li>
         <li><a href="{% url 'show_about' %}">О нас</a></li>
         <li><a href="{% url 'show_contact' %}">Контакты</a></li>
-        <li><a href="{% url 'show_main' %}">Мотоциклы</a></li>
     </ul>
 </div>
 {% endblock %}
