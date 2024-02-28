@@ -1,13 +1,14 @@
 from datetime import date
+from PIL import Image
+import os
 
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator, EmailValidator
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
-from ..motorcycles.models import Motorcycle
 
 
-class CustomUserManager(BaseUserManager):
+class MotoUserManager(BaseUserManager):
 
     def create_user(self,
                     email,
@@ -65,10 +66,20 @@ class CustomUserManager(BaseUserManager):
             raise ValidationError('Хотя бы 1 символ должен быть буквой')
 
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+class MotoUser(AbstractBaseUser, PermissionsMixin):
+    TYPE_CHOICES = [
+        ("КЛАС", "Классика"),
+        ("СП", "Спортивный Мотоцикл"),
+        ("КР", "Круизер"),
+        ("ТМ", "Тяжелый Мотоцикл"),
+        ("КРОС", "Кроссовый Мотоцикл"),
+        ("ЭН", "Туристический Эндуро"),
+        ("ПТ", "Питбайк"),
+    ]
     email = models.EmailField(unique=True,
                               validators=[EmailValidator(message='Введите корректный адрес электронной почты.')])
     login = models.CharField(max_length=30, unique=True)
+    avatar = models.ImageField(upload_to='moto_user/avatars', blank=True, null=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     date_of_birth = models.DateField(
@@ -81,7 +92,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
     preferences = models.CharField(max_length=100,
                                    blank=False,
-                                   choices=Motorcycle.TYPE_CHOICES,
+                                   choices=TYPE_CHOICES,
                                    verbose_name='Предпочитаемый вид мотоциклов')
     phone_number = models.CharField(
         max_length=15,
@@ -96,7 +107,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = CustomUserManager()
+    objects = MotoUserManager()
 
     USERNAME_FIELD = 'login'
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name', 'date_of_birth', 'preferences', 'phone_number']
@@ -106,6 +117,31 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         message='Пароль должен содержать хотя бы одну цифру и одну букву. Минимум 8 символов.',
         code='invalid_password'
     )
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.avatar:
+            self.resize_avatar()
+        else:
+            self.set_default_avatar()
+
+    def resize_avatar(self, *args, **kwargs):
+        image = Image.open(self.avatar.path)
+        new_size = (100, 200)
+        image.thumbnail(new_size)
+        image.save(self.avatar.path)
+
+    def set_default_avatar(self, *args, **kwargs):
+        default_avatar_path = os.path.join('/home/druce/IT_stuff/django_moto_seller/moto_seller/'
+                                           'moto_user/static/moto_user/images/hz.jpg')
+        image = Image.open(default_avatar_path)
+        new_size = (100, 200)
+        image.thumbnail(new_size)
+        default_avatar_path_resized = os.path.join('/home/druce/IT_stuff/django_moto_seller/moto_seller/'
+                                                   'moto_user/static/moto_user/images/hz_default.jpg')
+        image.save(default_avatar_path_resized)
+        self.avatar = 'images/hz_default.jpg'
+        self.save(update_fields=['avatar'])
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

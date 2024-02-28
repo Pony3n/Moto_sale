@@ -43,6 +43,10 @@
     text-align: center;
 }
 
+.menu a:hover {
+    color: #808080;
+}
+
 .menu ul {
     list-style: none;
     margin: 0;
@@ -71,4 +75,27 @@
     border-radius: 50%;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-right: 10px;
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.auth-button {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    margin-left: 20px;
+    position: relative;
+}
+
+.auth-button:not(:last-child)::after {
+    content: '|';
+    position: absolute;
+    right: -17px;
+    color: #fff;
+}
+.auth-button:hover {
+    color: #808080;
 }

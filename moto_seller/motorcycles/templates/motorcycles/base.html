@@ -16,7 +16,12 @@
         <li><a href="{% url 'show_main' %}">Мотоциклы</a></li>
         <li><a href="{% url 'show_about' %}">О нас</a></li>
         <li><a href="{% url 'show_contact' %}">Контакты</a></li>
+
     </ul>
+    <div class="auth-buttons">
+        <a href="{% url 'moto_user:register' %}" class="auth-button">Регистрация</a>
+        <a href="{% url 'moto_user:login' %}" class="auth-button">Вход</a>
+    </div>
 </div>
 {% endblock %}
 
