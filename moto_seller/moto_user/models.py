@@ -9,6 +9,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 
 class MotoUserManager(BaseUserManager):
+    """ Менеджер для моей модели пользователей """
 
     def create_user(self,
                     email,
@@ -20,6 +21,11 @@ class MotoUserManager(BaseUserManager):
                     phone_number,
                     password=None,
                     **extra_fields):
+        """
+        Метод создания пользователя.
+        Включает в себя проверку email и его привидения в нижний регистр.
+        Установку пароля и сохранение в БД пользователя.
+         """
         if not email:
             raise ValueError('Указание email - обязательно')
         email = self.normalize_email(email)
@@ -35,29 +41,17 @@ class MotoUserManager(BaseUserManager):
         user.save(using=self.db)
         return user
 
-    def create_superuser(self,
-                         email,
-                         login,
-                         first_name,
-                         last_name,
-                         date_of_birth,
-                         preferences,
-                         phone_number,
-                         password=None,
-                         **extra_fields):
+    def create_superuser(self, email, login, password=None, **extra_fields):
+        """
+        Метод призванный создать супер-пользователя через модель обычного пользователя.
+        """
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email,
-                                login,
-                                first_name,
-                                last_name,
-                                date_of_birth,
-                                preferences,
-                                phone_number,
-                                password,
-                                **extra_fields)
+
+        return self.create_user(email=email, login=login, password=password, **extra_fields)
 
     def validate_password_complexity(self, password):
+        """ Встроенная валидация Пароля """
         if len(password) < 8:
             raise ValidationError('Пароль должен быть длиннее 8 символов.')
         if not any(char.isdigit() for char in password):
@@ -67,6 +61,10 @@ class MotoUserManager(BaseUserManager):
 
 
 class MotoUser(AbstractBaseUser, PermissionsMixin):
+    """
+    Модель пользователя сайта.
+    Включает в себя поля необходимые для создания объекта пользователя
+    """
     TYPE_CHOICES = [
         ("КЛАС", "Классика"),
         ("СП", "Спортивный Мотоцикл"),
@@ -119,6 +117,10 @@ class MotoUser(AbstractBaseUser, PermissionsMixin):
     )
 
     def save(self, *args, **kwargs):
+        """
+        Метод который ресайзит полученную картинку, а в случае её отсутствия,
+        устанавливает дефолтную
+        """
         super().save(*args, **kwargs)
         if self.avatar:
             self.resize_avatar()
@@ -126,22 +128,32 @@ class MotoUser(AbstractBaseUser, PermissionsMixin):
             self.set_default_avatar()
 
     def resize_avatar(self, *args, **kwargs):
+        """
+        Метод для ресайзинга аватарки
+        """
         image = Image.open(self.avatar.path)
         new_size = (100, 200)
         image.thumbnail(new_size)
         image.save(self.avatar.path)
 
     def set_default_avatar(self, *args, **kwargs):
+        """
+        Метод установки дефолтной картинки
+        """
         default_avatar_path = os.path.join('/home/druce/IT_stuff/django_moto_seller/moto_seller/'
                                            'moto_user/static/moto_user/images/hz.jpg')
         image = Image.open(default_avatar_path)
         new_size = (100, 200)
         image.thumbnail(new_size)
-        default_avatar_path_resized = os.path.join('/home/druce/IT_stuff/django_moto_seller/moto_seller/'
-                                                   'moto_user/static/moto_user/images/hz_default.jpg')
+        default_avatar_path_resized = os.path.join('/home/druce/IT_stuff/django_moto_seller/'
+                                                   'moto_seller/media/images/default_moto.jpg')
         image.save(default_avatar_path_resized)
         self.avatar = 'images/hz_default.jpg'
         self.save(update_fields=['avatar'])
+
+    def get_full_name(self):
+        """ Метод, который суммирует имя и фамилий и возвращает их вместе """
+        return f'{self.first_name} {self.last_name}'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -149,3 +161,7 @@ class MotoUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.login
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
