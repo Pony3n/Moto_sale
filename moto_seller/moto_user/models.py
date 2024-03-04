@@ -146,7 +146,7 @@ class MotoUser(AbstractBaseUser, PermissionsMixin):
         new_size = (100, 200)
         image.thumbnail(new_size)
         default_avatar_path_resized = os.path.join('/home/druce/IT_stuff/django_moto_seller/'
-                                                   'moto_seller/media/images/default_moto.jpg')
+                                                   'moto_seller/media/images/hz_default.jpg')
         image.save(default_avatar_path_resized)
         self.avatar = 'images/hz_default.jpg'
         self.save(update_fields=['avatar'])

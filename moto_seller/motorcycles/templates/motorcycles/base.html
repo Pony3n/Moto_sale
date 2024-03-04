@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/main_page_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'moto_user/css/profile_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/detail_page_styles.css' %}">
     <title>Moto seller</title>
 </head>
 <body>
@@ -18,10 +20,17 @@
         <li><a href="{% url 'show_contact' %}">Контакты</a></li>
 
     </ul>
-    <div class="auth-buttons">
-        <a href="{% url 'moto_user:register' %}" class="auth-button">Регистрация</a>
-        <a href="{% url 'moto_user:login' %}" class="auth-button">Вход</a>
-    </div>
+    {% if user.is_authenticated %}
+        <div class="auth-buttons">
+            <a href="{% url 'moto_user:profile' user.pk %}" class="auth-button">Профиль</a>
+            <a href="{% url 'moto_user:logout' %}" class="auth-button">Выход</a>
+        </div>
+    {% else %}
+        <div class="auth-buttons">
+            <a href="{% url 'moto_user:register' %}" class="auth-button">Регистрация</a>
+            <a href="{% url 'moto_user:login' %}" class="auth-button">Вход</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
 

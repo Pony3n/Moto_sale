@@ -11,7 +11,7 @@ from .forms import MotoUserCreationForm
 class MotoRegistrationView(CreateView):
     form_class = MotoUserCreationForm
     template_name = 'moto_user/register.html'
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('profile', kwargs={'pk': 1})
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -19,9 +19,13 @@ class MotoRegistrationView(CreateView):
         login(self.request, self.object)
         return response
 
+    def get_success_url(self):
+        return reverse_lazy('moto_user:profile', kwargs={'pk': self.object.pk})
+
 
 class MotoUserProfileView(LoginRequiredMixin, View):
     template_name = 'moto_user/profile.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        context = {'user': request.user}
+        return render(request, self.template_name, context)
