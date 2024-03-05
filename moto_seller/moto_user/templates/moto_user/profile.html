@@ -1,0 +1,18 @@
+{% extends 'motorcycles/base.html' %}
+
+{% block content %}
+    <section>
+        <h2>Welcome, {{ user.first_name }}!</h2>
+        <img class="moto-user-avatar" src="{{ user.avatar.url }}" alt="Avatar">
+        <div class="moto-user-info">
+            <p>Login: {{ user.login }}</p>
+            <p>First Name: {{ user.first_name }}</p>
+            <p>Last Name: {{ user.last_name }}</p>
+            <p>Email: {{ user.email }}</p>
+            <p>Date of Birth: {{ user.date_of_birth }}</p>
+            <p>Preferences: {{ user.preferences }}</p>
+            <p>Phone Number: {{ user.phone_number }}</p>
+        </div>
+    </section>
+{% endblock %}
+</html>

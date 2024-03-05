@@ -1,0 +1,16 @@
+.moto-user-avatar {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%; /* Сделаем аватар круглым */
+    margin-bottom: 10px;
+}
+
+/* Стили для полей с информацией о пользователе */
+.moto-user-info {
+    margin-bottom: 10px;
+}
+
+/* Стили для текста внутри полей */
+.moto-user-info p {
+    margin: 5px 0;
+}
