@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views import View
 
 from .models import Motorcycle
 
@@ -11,3 +12,10 @@ def show_about(request):
 
 def show_contact(request):
     return render(request, 'motorcycles/contact.html')
+
+class MotorcycleDetailView(View):
+    template_name = "motorcycles/motorcycle_detail_view.html"
+
+    def get(self, request, *args, **kwargs):
+        moto = Motorcycle.objects.get(pk=self.kwargs['pk'])
+        return render(request, self.template_name, {"moto": moto})

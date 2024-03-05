@@ -1,15 +1,17 @@
 {% load static %}
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/styles.css' %}">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/main_page_styles.css' %}">
     <title>Moto seller</title>
 </head>
 <body>
 {% block header %}
-<div class="logo">
-    <img src="{% static 'motorcycle/images/default_moto.jpg' %}" alt="Здесь должно быть лого">
-</div>
+
 <div class="menu">
+    <div class="logo">
+        <img src="{% static 'motorcycles/images/Logo.jpg' %}" alt="Здесь должно быть лого">
+    </div>
     <ul>
         <li><a href="{% url 'show_about' %}">О нас</a></li>
         <li><a href="{% url 'show_contact' %}">Контакты</a></li>
