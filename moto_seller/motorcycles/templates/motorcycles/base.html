@@ -9,6 +9,9 @@
 </head>
 <body>
 {% block header %}
+<form id="logout-form" action="{% url 'moto_user:logout' %}" method="post" style="display: none;">
+  {% csrf_token %}
+</form>
 
 <div class="menu">
     <div class="logo">
@@ -23,7 +26,7 @@
     {% if user.is_authenticated %}
         <div class="auth-buttons">
             <a href="{% url 'moto_user:profile' user.pk %}" class="auth-button">Профиль</a>
-            <a href="{% url 'moto_user:logout' %}" class="auth-button">Выход</a>
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;" class="auth-button">Выход</a>
         </div>
     {% else %}
         <div class="auth-buttons">
