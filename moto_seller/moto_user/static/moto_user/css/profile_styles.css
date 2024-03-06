@@ -1,9 +1,11 @@
 section {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
     background-color: #dfdfdf;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 20px 0;
 }
 
 h2 {
@@ -11,11 +13,27 @@ h2 {
 }
 
 .moto-user-avatar {
-    max-width: 150px;
     border-radius: 50%;
-    margin-right: 20px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-top: 20px;
 }
 
 .moto-user-info {
-    max-width: 500px;
+    margin-top: 20px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.moto-user-info p {
+    margin: 10px 0;
+    color: #555;
+}
+
+.moto-user-info p:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }

@@ -20,12 +20,13 @@
 }
 
 .moto_card img {
-    max-width: 70%;
-    height: 40%;
+    max-width: 100%;
+    height: auto;           /* Изменить, если разонравится */
     margin-top: 10px;
 }
 
 .moto_cards_container {
+    background-color: #dfdfdf;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -99,3 +100,48 @@
 .auth-button:hover {
     color: #808080;
 }
+
+.search-form {
+    max-width: 90%;
+    margin: 10px auto;
+    text-align: center;
+    position: relative;
+}
+
+.search-input {
+    display: inline-block;
+    width: calc(90% - 20px); /* Ширина строки поиска, уменьшена на 20px для учета внутренних отступов */
+    margin-right: 20px; /* Добавлен отступ справа */
+    box-sizing: border-box; /* Учет внутренних отступов в общей ширине */
+}
+
+.search-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+}
+
+.search-form:before  {
+    content: "Найди свою мечту!";
+    position: absolute;
+    top: 29%;
+    left: 44%;
+    font-size: 16px;
+    opacity: 0.5; /* Прозрачность надписи */
+    pointer-events: none;
+    color: #555;
+}
+
+.search-button {
+    background-color: #808080;
+    color: #ffffff;
+    padding: 15px 15px;
+    border: right;
+    border-radius: 10px;
+    cursor: pointer;
+}
+#808080
