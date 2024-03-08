@@ -101,18 +101,18 @@
     color: #808080;
 }
 
-.search-form {
-    max-width: 90%;
-    margin: 10px auto;
-    text-align: center;
-    position: relative;
-}
-
 .search-input {
     display: inline-block;
     width: calc(90% - 20px); /* Ширина строки поиска, уменьшена на 20px для учета внутренних отступов */
     margin-right: 20px; /* Добавлен отступ справа */
-    box-sizing: border-box; /* Учет внутренних отступов в общей ширине */
+    margin-top: 10px; /* Небольшой отступ сверху */
+}
+
+.search-form {
+    max-width: 60%;
+    margin: 10px auto;
+    text-align: center;
+    position: relative;
 }
 
 .search-form input[type="text"] {
@@ -128,8 +128,8 @@
 .search-form:before  {
     content: "Найди свою мечту!";
     position: absolute;
-    top: 29%;
-    left: 44%;
+    top: 19%;
+    left: 40%;
     font-size: 16px;
     opacity: 0.5; /* Прозрачность надписи */
     pointer-events: none;
@@ -140,8 +140,14 @@
     background-color: #808080;
     color: #ffffff;
     padding: 15px 15px;
-    border: right;
+    border: left;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.filter-input {
+    width: 100%; /* Ширина блока с полями фильтрации */
+    margin-top: 20px; /* Добавлен отступ слева */
+
 }
 #808080

@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.shortcuts import render, redirect
 from django.views import View
 from django.urls import reverse
@@ -22,38 +24,42 @@ def show_main(request):
 
 def motorcycle_search(request):
     """
-    Отображает форму для поиска конкретных моделей. В случае отсутствия совпадений, выводит соответствующее сообщение.
+    Отображает форму для поиска конкретных моделей.
+    В случае отсутствия совпадений, выводит соответствующее сообщение.
     В случае передачи пустой строки, возвращает на главную страницу.
     """
     search_query = None
+    motorcycles = None
+
     if request.method == 'GET':
         form = MotorcyclesSearchForm(request.GET)
         if form.is_valid():
             search_query = form.cleaned_data['search_query']
-            if search_query != None:
-                motorcycles = Motorcycle.objects.filter(model_name__icontains=search_query)
-                if motorcycles.exists():
-                    context = {
-                        'motorcycles': motorcycles,
-                        'search_query': search_query,
-                        'form': form,
-                    }
-                    return render(request, 'motorcycles/search_list.html', context)
-                else:
-                    no_result_message = "Совпадений не найдено"
-                    context = {
-                        'motorcycles': motorcycles,
-                        'form': form,
-                        'no_result_message': no_result_message,
-                    }
-                    return render(request, 'motorcycles/search_list.html', context)
 
-    context = {
-        'search_query': search_query,
-        'form': MotorcyclesSearchForm(),
-    }
+            filters = {
+                'date_of_issue__gte': form.cleaned_data.get('min_date_of_issue'),
+                'date_of_issue__lte': form.cleaned_data.get('max_date_of_issue'),
+                'moto_type': form.cleaned_data.get('moto_type') if form.cleaned_data.get('moto_type') else None,
+                'price__gte': form.cleaned_data.get('min_price'),
+                'price__lte': form.cleaned_data.get('max_price'),
+            }
 
-    return render(request, 'motorcycles/index.html', context)
+            filters = {key: value for key, value in filters.items() if value is not None}
+
+
+            print(f'Filters: {filters}')
+            if search_query or filters:
+                motorcycles = Motorcycle.objects.filter(model_name__icontains=search_query, **filters)
+
+        context = {
+            'motorcycles': motorcycles,
+            'search_query': search_query,
+            'form': form,
+            'no_result_message': "Совпадений не найдено" if motorcycles is not None and not motorcycles.exists() else None,
+        }
+
+        template = 'motorcycles/search_list.html' if motorcycles is not None else 'motorcycles/index.html'
+        return render(request, template, context)
 
 
 def show_about(request):

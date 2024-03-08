@@ -2,10 +2,17 @@
 
 {% block content %}
     <form method="get" action="{% url 'motorcycles:motorcycle_search' %}" class="search-form">
-        <div class="search-input">
-            {{ form.search_query }}
-        </div>
-        <button type="submit" class="search-button">Искать</button>
+    <div class="search-input">
+        {{ form.search_query }}
+    <div class="filter-input">
+        {{ form.min_date_of_issue }}
+        {{ form.max_date_of_issue }}
+        {{ form.moto_type }}
+        {{ form.min_price }}
+        {{ form.max_price }}
+    </div>
+    </div>
+    <button type="submit" class="search-button">Искать</button>
     </form>
 
 <div class="moto_cards_container">
