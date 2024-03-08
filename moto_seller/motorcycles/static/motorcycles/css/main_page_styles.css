@@ -9,9 +9,13 @@
     box-sizing: border-box;
 }
 
-.moto_card h2 {
-    color: #333;
-    font-size: 18px;
+.moto_card h2 a {
+    color: #292929;
+    text-decoration: none; /* Если вы не хотите подчеркивания для ссылок */
+}
+
+.moto_card h2 a:hover {
+    text-decoration: underline; /* Если вы хотите добавить подчеркивание при наведении */
 }
 
 .moto_card p {
@@ -21,7 +25,7 @@
 
 .moto_card img {
     max-width: 100%;
-    height: auto;           /* Изменить, если разонравится */
+    height: auto;
     margin-top: 10px;
 }
 
@@ -103,9 +107,9 @@
 
 .search-input {
     display: inline-block;
-    width: calc(90% - 20px); /* Ширина строки поиска, уменьшена на 20px для учета внутренних отступов */
-    margin-right: 20px; /* Добавлен отступ справа */
-    margin-top: 10px; /* Небольшой отступ сверху */
+    width: calc(90% - 20px);
+    margin-right: 20px;
+    margin-top: 10px;
 }
 
 .search-form {
@@ -131,7 +135,7 @@
     top: 19%;
     left: 40%;
     font-size: 16px;
-    opacity: 0.5; /* Прозрачность надписи */
+    opacity: 0.5;
     pointer-events: none;
     color: #555;
 }
@@ -146,8 +150,31 @@
 }
 
 .filter-input {
-    width: 100%; /* Ширина блока с полями фильтрации */
-    margin-top: 20px; /* Добавлен отступ слева */
+    width: 100%;
+    margin-top: 20px;
 
 }
-#808080
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.step-links a {
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    border-radius: 4px;
+}
+
+.current {
+    color: #fff;
+    background-color: #808080;
+    padding: 8px 16px;
+    border: 1px solid #808080;
+    margin: 0 4px;
+    border-radius: 4px;
+}

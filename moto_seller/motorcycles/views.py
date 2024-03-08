@@ -1,7 +1,6 @@
-from datetime import date
-
 from django.shortcuts import render, redirect
 from django.views import View
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
 
 from .models import Motorcycle
@@ -14,6 +13,15 @@ def show_main(request):
     """
     motorcycles = Motorcycle.objects.all()
     form = MotorcyclesSearchForm(request.GET)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(motorcycles, 6)  # 10 объектов на странице
+    try:
+        motorcycles = paginator.page(page)
+    except PageNotAnInteger:
+        motorcycles = paginator.page(1)
+    except EmptyPage:
+        motorcycles = paginator.page(paginator.num_pages)
 
     context = {
         'motorcycles': motorcycles,
@@ -30,6 +38,7 @@ def motorcycle_search(request):
     """
     search_query = None
     motorcycles = None
+    page = request.GET.get('page', 1)
 
     if request.method == 'GET':
         form = MotorcyclesSearchForm(request.GET)
@@ -51,11 +60,21 @@ def motorcycle_search(request):
             if search_query or filters:
                 motorcycles = Motorcycle.objects.filter(model_name__icontains=search_query, **filters)
 
+                paginator = Paginator(motorcycles, 6)
+                print(f'Page: {page}')
+
+                try:
+                    motorcycles = paginator.page(page)
+                except PageNotAnInteger:
+                    motorcycles = paginator.page(1)
+                except EmptyPage:
+                    motorcycles = paginator.page(paginator.num_pages)
+
         context = {
             'motorcycles': motorcycles,
             'search_query': search_query,
             'form': form,
-            'no_result_message': "Совпадений не найдено" if motorcycles is not None and not motorcycles.exists() else None,
+            'no_result_message': "Совпадений не найдено" if motorcycles is not None and not motorcycles.object_list else None,
         }
 
         template = 'motorcycles/search_list.html' if motorcycles is not None else 'motorcycles/index.html'

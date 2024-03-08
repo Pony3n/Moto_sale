@@ -30,3 +30,24 @@
   {% endfor %}
 </div>
 {% endblock %}
+
+{% block pagination %}
+    <!-- Код для отображения пагинации -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if motorcycles.has_previous %}
+                <a href="?page=1">&laquo; Первая</a>
+                <a href="?page={{ motorcycles.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ motorcycles.number }} из {{ motorcycles.paginator.num_pages }}.
+            </span>
+
+            {% if motorcycles.has_next %}
+                <a href="?page={{ motorcycles.next_page_number }}">Следующая</a>
+                <a href="?page={{ motorcycles.paginator.num_pages }}">Последняя &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
