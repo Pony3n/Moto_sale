@@ -9,21 +9,24 @@
 </head>
 <body>
 {% block header %}
+<form id="logout-form" action="{% url 'moto_user:logout' %}" method="post" style="display: none;">
+  {% csrf_token %}
+</form>
 
 <div class="menu">
     <div class="logo">
         <img src="{% static 'motorcycles/images/Logo.jpg' %}" alt="Здесь должно быть лого">
     </div>
     <ul>
-        <li><a href="{% url 'show_main' %}">Мотоциклы</a></li>
-        <li><a href="{% url 'show_about' %}">О нас</a></li>
-        <li><a href="{% url 'show_contact' %}">Контакты</a></li>
+        <li><a href="{% url 'motorcycles:show_main' %}">Мотоциклы</a></li>
+        <li><a href="{% url 'motorcycles:show_about' %}">О нас</a></li>
+        <li><a href="{% url 'motorcycles:show_contact' %}">Контакты</a></li>
 
     </ul>
     {% if user.is_authenticated %}
         <div class="auth-buttons">
             <a href="{% url 'moto_user:profile' user.pk %}" class="auth-button">Профиль</a>
-            <a href="{% url 'moto_user:logout' %}" class="auth-button">Выход</a>
+            <a href="#" onclick="document.getElementById('logout-form').submit(); return false;" class="auth-button">Выход</a>
         </div>
     {% else %}
         <div class="auth-buttons">
@@ -35,6 +38,9 @@
 {% endblock %}
 
 {% block content %}
+{% endblock %}
+
+{% block pagination %}
 {% endblock %}
 </body>
 </html>

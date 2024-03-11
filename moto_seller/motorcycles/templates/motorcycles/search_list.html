@@ -1,0 +1,56 @@
+{% extends 'motorcycles/base.html' %}
+{% load static %}
+{% block content %}
+    <form method="get" action="{% url 'motorcycles:motorcycle_search' %}" class="search-form">
+    <div class="search-input">
+        {{ form.search_query }}
+    <div class="filter-input">
+        {{ form.min_date_of_issue }}
+        {{ form.max_date_of_issue }}
+        {{ form.moto_type }}
+        {{ form.min_price }}
+        {{ form.max_price }}
+    </div>
+    </div>
+    <button type="submit" class="search-button">Искать</button>
+    </form>
+
+<div class="moto_cards_container">
+    {% if no_result_message %}
+      <p>{{ no_result_message }}</p>
+    {% else %}
+      {% for moto in motorcycles %}
+      <div class="moto_card">
+        <h2><a href="{% url 'motorcycles:motorcycle_detail' pk=moto.pk %}">{{ moto.model_name }}, {{ moto.date_of_issue }}</a> </h2>
+        <p><strong>Тип:</strong> {{ moto.moto_type }}</p>
+        <p><strong>Двигатель:</strong> {{ moto.engine }}</p>
+        <p><strong>Коробка передач:</strong> {{ moto.transmission }}</p>
+        <p><strong>В наличии:</strong> {% if moto.status %}Да{% else %}Нет{% endif %}</p>
+        <p><strong>Комментарий продавца:</strong> {{ moto.seller_comment|linebreaks|truncatewords:30 }}</p>
+        <h2><strong>Цена:</strong> {{ moto.price }}</h2>
+        <img src="{{ moto.image.url }}" alt="I DON'T KNOW!" class="moto_images">
+      </div>
+      {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block pagination %}
+<div class="pagination">
+    <span class="step-links">
+        {% if motorcycles.has_previous %}
+            <a href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&laquo; Первая</a>
+            <a href="?page={{ motorcycles.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ motorcycles.number }} из {{ motorcycles.paginator.num_pages }}.
+        </span>
+
+        {% if motorcycles.has_next %}
+            <a href="?page={{ motorcycles.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Следующая</a>
+            <a href="?page={{ motorcycles.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Последняя &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

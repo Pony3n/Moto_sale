@@ -1,0 +1,10 @@
+{% extends 'motorcycles/base.html' %}
+
+{% block content %}
+  <h2>Авторизация</h2>
+  <form method="post" class="login-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Вход</button>
+  </form>
+{% endblock %}

@@ -1,16 +1,39 @@
+section {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #dfdfdf;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
 .moto-user-avatar {
-    max-width: 100%;
-    height: auto;
-    border-radius: 50%; /* Сделаем аватар круглым */
-    margin-bottom: 10px;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-top: 20px;
 }
 
-/* Стили для полей с информацией о пользователе */
 .moto-user-info {
-    margin-bottom: 10px;
+    margin-top: 20px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для текста внутри полей */
 .moto-user-info p {
-    margin: 5px 0;
+    margin: 10px 0;
+    color: #555;
+}
+
+.moto-user-info p:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }
