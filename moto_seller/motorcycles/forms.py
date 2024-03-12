@@ -1,4 +1,7 @@
 from django import forms
+from django.core import validators
+
+from moto_cart.models import CartItem
 from .models import Motorcycle
 
 
@@ -21,3 +24,16 @@ class MotorcyclesSearchForm(forms.Form):
                                   choices=[('', '---')] + TYPE_CHOICES)
     min_price = forms.DecimalField(label='Мин. цена', required=False)
     max_price = forms.DecimalField(label='Макс. цена', required=False)
+
+
+class MotoAddToCartForm(forms.ModelForm):
+    motorcycle = forms.ModelChoiceField(queryset=Motorcycle.objects.all(), widget=forms.HiddenInput(), required=False)
+    quantity = forms.IntegerField(label='Количество',
+                                  required=True,
+                                  validators=[
+                                      validators.MinValueValidator(1, 'Количество должно быть больше 1')
+                                  ])
+
+    class Meta:
+        model = CartItem
+        fields = ['motorcycle', 'quantity']

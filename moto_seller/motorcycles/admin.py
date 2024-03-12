@@ -1,5 +1,3 @@
-from django import forms
-from django.utils.html import mark_safe
 from django.contrib import admin
 
 from .models import Motorcycle

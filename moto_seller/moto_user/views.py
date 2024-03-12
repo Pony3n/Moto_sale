@@ -38,7 +38,7 @@ class MotoUserProfileView(LoginRequiredMixin, View):
 
 
 class MotoUserLogoutView(LogoutView):
-    next_page = reverse_lazy('show_main')
+    next_page = reverse_lazy('motorcycles:show_main')
 
     def dispatch(self, request, *args, **kwargs):
         logger.info(f'Пользователь {request.user} выходит из системы')

@@ -14,4 +14,14 @@
             <img src="{{ moto.image.url }}" alt="I DON'T KNOW!" class="moto_images">
         </div>
     </div>
+
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'motorcycles:motorcycle_detail' pk=moto.pk %}" class="add-to-cart-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Добавить в корзину</button>
+         </form>
+    {% else %}
+        <p class="not-authorized-message">{{ auth_message }}</p>
+    {% endif %}
 {% endblock %}

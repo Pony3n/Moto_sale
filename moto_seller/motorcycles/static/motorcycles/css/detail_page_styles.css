@@ -16,3 +16,49 @@
     height: 70%;
     border-radius: 8px;
 }
+
+.add-to-cart-form {
+    position: relative;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 42%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.add-to-cart-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.add-to-cart-form input {
+    padding: 8px;
+    width: calc(100% - 16px);
+    box-sizing: border-box;
+    margin-bottom: 12px;
+}
+
+.add-to-cart-form button {
+    background-color: #808080;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.add-to-cart-form button:hover {
+    background-color: #45a049;
+}
+
+.not-authorized-message {
+    text-align: center;
+    margin-top: 20px; /* Добавим немного отступа сверху для красоты */
+    color: red; /* Выберите подходящий цвет для текста */
+}
