@@ -9,6 +9,6 @@ urlpatterns = ([
     path('admin/', admin.site.urls),
     path('moto/', include("motorcycles.urls")),
     path('user/', include('moto_user.urls')),
-    path('api/', include(moto_cart_urlpatterns))
+    path('cart/', include(moto_cart_urlpatterns))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
                + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))

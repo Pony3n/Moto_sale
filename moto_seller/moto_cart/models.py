@@ -22,4 +22,7 @@ class CartItem(models.Model):
 
     @property
     def price(self):
-        return self.motorcycle.price
+        return self.motorcycle.price * self.quantity
+
+    def __str__(self):
+        return f'Лот: {self.motorcycle}'

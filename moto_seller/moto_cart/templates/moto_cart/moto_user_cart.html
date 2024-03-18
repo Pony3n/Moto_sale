@@ -1,0 +1,46 @@
+{% extends 'motorcycles/base.html' %}
+
+{% block content %}
+    <div class="user-cart-container">
+        <h2 class="user-cart-heading">Корзина пользователя, {{ cart.user }}</h2>
+
+        <div class="user-cart-items">
+            <h3>Добавленные товары:</h3>
+            {% for cart_item in cart_items.all %}
+                <div class="user-cart-item">
+                    <div class="user-item-image">
+                        <img src="{{ cart_item.motorcycle.image.url }}" alt="Motorcycle Image" class="item-image">
+                    </div>
+                    <div class="item-details">
+                        <p class="user-item-name">
+                            <a href="{% url 'motorcycles:motorcycle_detail' pk=cart_item.motorcycle.pk %}">
+                                {{ cart_item.motorcycle.model_name }}
+                            </a>
+                        </p>
+                        <p class="user-item-quantity">Количество: {{ cart_item.quantity }}</p>
+                        <p class="user-item-price">Цена: {{cart_item.price }}</p>
+                    </div>
+                </div>
+                <hr class="divider">
+            {% endfor %}
+        </div>
+
+        <div class="user-cart-total">
+            <h3>Итоговая стоимость: {{ cart.total_price }}</h3>
+        </div>
+
+        <div class="user-cart-address">
+            <h3 class="user-cart-address-heading">Адрес доставки:</h3>
+            <p>{{ delivery_address }}</p>
+        </div>
+
+        <div class="user-cart-form">
+            <h2>Добавить/обновить адрес доставки:</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
