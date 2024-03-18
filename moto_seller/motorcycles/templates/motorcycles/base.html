@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/main_page_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'moto_user/css/profile_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/detail_page_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'moto_cart/css/moto_cart_styles.css' %}">
     <title>Moto seller</title>
 </head>
 <body>
@@ -21,12 +22,16 @@
         <li><a href="{% url 'motorcycles:show_main' %}">Мотоциклы</a></li>
         <li><a href="{% url 'motorcycles:show_about' %}">О нас</a></li>
         <li><a href="{% url 'motorcycles:show_contact' %}">Контакты</a></li>
-
     </ul>
     {% if user.is_authenticated %}
         <div class="auth-buttons">
             <a href="{% url 'moto_user:profile' user.pk %}" class="auth-button">Профиль</a>
             <a href="#" onclick="document.getElementById('logout-form').submit(); return false;" class="auth-button">Выход</a>
+        </div>
+        <div class="cart-icon">
+            <a href="{% url 'moto_user_cart' %}">
+                <img src="{% static 'moto_cart/images/cart_icon.png' %}" alt="Корзина">
+            </a>
         </div>
     {% else %}
         <div class="auth-buttons">

@@ -1,36 +1,55 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.urls import reverse
+from django.contrib import messages
 
+from moto_cart.models import CartItem, Cart
 from .models import Motorcycle
-from .forms import MotorcyclesSearchForm
+from .forms import MotorcyclesSearchForm, MotoAddToCartForm
 
 
-def show_main(request):
+class MainView(View):
     """
     Отображает главную страницу со списком всех мотоциклов
     """
-    motorcycles = Motorcycle.objects.all()
-    form = MotorcyclesSearchForm(request.GET)
-    page = request.GET.get('page', 1)
+    items_per_page = 6
+    template_name = 'motorcycles/index.html'
 
-    paginator = Paginator(motorcycles, 6)  # 10 объектов на странице
-    try:
-        motorcycles = paginator.page(page)
-    except PageNotAnInteger:
-        motorcycles = paginator.page(1)
-    except EmptyPage:
-        motorcycles = paginator.page(paginator.num_pages)
+    def get(self, request, *args, **kwargs):
+        motorcycles = Motorcycle.objects.all()
+        form = MotorcyclesSearchForm(request.GET)
+        page = request.GET.get('page', 1)
 
-    context = {
-        'motorcycles': motorcycles,
-        'form': form
-    }
-    return render(request, 'motorcycles/index.html', context)
+        paginator = Paginator(motorcycles, self.items_per_page)
+        try:
+            motorcycles = paginator.page(page)
+        except PageNotAnInteger:
+            motorcycles = paginator.page(1)
+        except EmptyPage:
+            motorcycles = paginator.page(paginator.num_pages)
+
+        context = {
+            'motorcycles': motorcycles,
+            'form': form
+        }
+
+        return render(request, self.template_name, context)
+
+    # def post(self, request, *args, **kwargs):
+    #     form = MotoAddToCartForm(request.POST)
+    #     if form.is_valid():
+    #         motorcycle = get_object_or_404(Motorcycle, pk=form.cleaned_data['motorcycle_id'])
+    #         if request.user.is_authenticated and hasattr(request.user, 'cart'):
+    #             cart_item, created = CartItem.objects.get_or_create(cart=request.user.cart, motorcycle=motorcycle)
+    #             if not created:
+    #                 cart_item.quantity += form.cleaned_data['quantity']
+    #                 cart_item.save()
+    #
+    #     return redirect('motorcycles:show_main')
 
 
-def motorcycle_search(request):
+class MotoSearch(View):
     """
     Отображает форму для поиска конкретных моделей.
     В случае отсутствия совпадений, выводит соответствующее сообщение.
@@ -38,9 +57,9 @@ def motorcycle_search(request):
     """
     search_query = None
     motorcycles = None
-    page = request.GET.get('page', 1)
 
-    if request.method == 'GET':
+    def get(self, request, *args, **kwargs):
+        page = request.GET.get('page', 1)
         form = MotorcyclesSearchForm(request.GET)
         if form.is_valid():
             search_query = form.cleaned_data['search_query']
@@ -57,27 +76,28 @@ def motorcycle_search(request):
 
 
             print(f'Filters: {filters}')
-            if search_query or filters:
+            if self.search_query or filters:
                 motorcycles = Motorcycle.objects.filter(model_name__icontains=search_query, **filters)
 
                 paginator = Paginator(motorcycles, 6)
                 print(f'Page: {page}')
 
                 try:
-                    motorcycles = paginator.page(page)
+                    self.motorcycles = paginator.page(page)
                 except PageNotAnInteger:
-                    motorcycles = paginator.page(1)
+                    self.motorcycles = paginator.page(1)
                 except EmptyPage:
-                    motorcycles = paginator.page(paginator.num_pages)
+                    self.motorcycles = paginator.page(paginator.num_pages)
 
         context = {
-            'motorcycles': motorcycles,
-            'search_query': search_query,
+            'motorcycles': self.motorcycles,
+            'search_query': self.search_query,
             'form': form,
-            'no_result_message': "Совпадений не найдено" if motorcycles is not None and not motorcycles.object_list else None,
+            'no_result_message': "Совпадений не найдено" if self.motorcycles is not None
+                                                            and not self.motorcycles.object_list else None,
         }
 
-        template = 'motorcycles/search_list.html' if motorcycles is not None else 'motorcycles/index.html'
+        template = 'motorcycles/search_list.html' if self.motorcycles is not None else 'motorcycles/index.html'
         return render(request, template, context)
 
 
@@ -94,4 +114,37 @@ class MotorcycleDetailView(View):
 
     def get(self, request, *args, **kwargs):
         moto = Motorcycle.objects.get(pk=self.kwargs['pk'])
-        return render(request, self.template_name, {"moto": moto})
+        form = MotoAddToCartForm(initial={'motorcycle': moto.id})
+        auth_message = "Чтобы добавить товар в корзину, пожалуйста, войдите или зарегистрируйтесь."
+
+        context = {
+            'moto': moto,
+            'form': form,
+            "auth_message": auth_message
+        }
+        return render(request, self.template_name, context=context)
+
+    def post(self, request, *args, **kwargs):
+        form = MotoAddToCartForm(request.POST)
+        if form.is_valid():
+            print('Форма прошла валидацию')
+            print(f"Количество: {form.cleaned_data['quantity']}")
+            motorcycle = get_object_or_404(Motorcycle, pk=self.kwargs['pk'])
+
+            if request.user.is_authenticated:
+                cart, created = Cart.objects.get_or_create(user=request.user)
+                print('Корзина создана')
+
+                print('Юзер авторизован')
+                cart_item, created = CartItem.objects.get_or_create(cart=cart, motorcycle=motorcycle)
+
+                print('Корзина пользователя создана')
+                if not created:
+                    cart_item.quantity += form.cleaned_data['quantity']
+                    cart_item.save()
+                else:
+                    cart_item.quantity = form.cleaned_data['quantity']
+                    cart_item.save()
+            else:
+                return render(request, self.template_name, {"moto": motorcycle})
+        return redirect('motorcycles:motorcycle_detail', pk=self.kwargs['pk'])

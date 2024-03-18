@@ -43,6 +43,7 @@
 }
 
 .menu {
+    position: relative;
     background-color: #333;
     padding: 10px;
     text-align: center;
@@ -102,7 +103,7 @@
     color: #fff;
 }
 .auth-button:hover {
-    color: #808080;
+    color: #45a049;
 }
 
 .search-input {
@@ -177,4 +178,48 @@
     border: 1px solid #808080;
     margin: 0 4px;
     border-radius: 4px;
+}
+
+.main-to-cart-form {
+    margin-top: 20px;
+}
+
+.main-to-cart-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.main-to-cart-form input {
+    padding: 8px;
+    width: 50%;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+}
+
+.main-to-cart-form button {
+    background-color: #808080;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.main-to-cart-form button:hover {
+    background-color: #45a049;
+}
+
+.menu .cart-icon {
+    position: absolute; /* Положение элемента абсолютное */
+    top: 15px; /* Расположим элемент вверху блока с отступом 10px */
+    right: 20px; /* Расположим элемент справа в блоке с отступом 10px */
+}
+
+.cart-icon a {
+    display: flex; /* Использование flexbox для выравнивания содержимого по центру */
+    align-items: center; /* Выравнивание содержимого по вертикали */
+}
+
+.cart-icon img {
+    max-width: 60px; /* Увеличение максимальной ширины изображения */
+    height: auto; /* Автоматическое определение высоты */
 }

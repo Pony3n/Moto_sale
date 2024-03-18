@@ -1,0 +1,103 @@
+.user-cart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-cart-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.user-cart-items {
+    margin-bottom: 20px;
+}
+
+.user-cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.user-item-image {
+    margin-right: 10px;
+}
+
+.user-item-image img {
+    width: 100px; /* Установите желаемую ширину изображения */
+    height: auto;
+    border-radius: 5px; /* Округлите углы изображения */
+}
+
+.item-details {
+    flex-grow: 1;
+}
+
+.user-item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.user-item-name a {
+    color: #282828;
+    text-decoration: none; /* Убираем подчеркивание по умолчанию */
+}
+
+.user-item-name a:hover {
+    text-decoration: underline; /* Подчеркиваем при наведении */
+}
+
+.user-item-quantity {
+    margin-bottom: 5px;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #ccc; /* Цвет и стиль разделителя */
+    margin: 10px 0; /* Отступы между сегментами */
+}
+
+.user-cart-total {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.user-cart-address {
+    margin-top: 20px;
+}
+
+.user-cart-address-heading {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.user-cart-form {
+    margin-top: 20px;
+}
+
+.user-cart-form label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.user-cart-form input {
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+}
+
+.user-cart-form button {
+    background-color: #808080;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.user-cart-form button:hover {
+    background-color: #45a049;
+}
