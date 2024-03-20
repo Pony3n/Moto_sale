@@ -13,6 +13,23 @@
             <p>Предпочитаемый вид мотоциклов: {{ user.preferences }}</p>
             <p>Номер телефона: {{ user.phone_number }}</p>
         </div>
+        <a href="{% url 'moto_user:create_motorcycle' %}" class="create-motorcycle-link">Добавить мотоцикл</a>
     </section>
+
+    <section class="user-motorcycles">
+    <h3>Ваши мотоциклы</h3>
+    <ul class="motorcycle-list">
+        {% for motorcycle in motorcycles %}
+            <li class="motorcycle-item">
+                <p class="model-name">
+                    <a href="{% url 'motorcycles:motorcycle_detail' pk=motorcycle.pk %}" class="model-name">Название модели: {{ motorcycle.model_name }}</a>
+                </p>
+                <p class="date-of-issue">Год: {{ motorcycle.date_of_issue }}</p>
+                <p class="price">Цена: {{ motorcycle.price }}</p>
+                <img class="motorcycle-image" src="{{ motorcycle.image.url }}" alt="Изображение мотоцикла">
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
 {% endblock %}
-</html>

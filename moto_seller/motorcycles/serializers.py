@@ -14,5 +14,5 @@ class MotorcycleSerializer(serializers.ModelSerializer):
                   'status',
                   'seller_comment',
                   'price',
-                  'image'
+                  'image',
                   ]

@@ -7,6 +7,8 @@ from django.db import models
 from django.conf import settings
 from django.core.files import File
 
+from moto_user.models import MotoUser
+
 
 def validate_price(value):          #TODO Неработает валидация
     if isinstance(value, str):
@@ -59,6 +61,7 @@ class Motorcycle(models.Model):
     image = models.ImageField(blank=True,
                               null=True,
                               upload_to='images/')   #TODO Сделать картинки так, чтобы их можно было отдавать галлереей
+    creator = models.ForeignKey(MotoUser, on_delete=models.CASCADE, default=1)
 
     def save(self, *args, **kwargs):
         if not self.image:

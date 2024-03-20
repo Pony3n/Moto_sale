@@ -36,18 +36,6 @@ class MainView(View):
 
         return render(request, self.template_name, context)
 
-    # def post(self, request, *args, **kwargs):
-    #     form = MotoAddToCartForm(request.POST)
-    #     if form.is_valid():
-    #         motorcycle = get_object_or_404(Motorcycle, pk=form.cleaned_data['motorcycle_id'])
-    #         if request.user.is_authenticated and hasattr(request.user, 'cart'):
-    #             cart_item, created = CartItem.objects.get_or_create(cart=request.user.cart, motorcycle=motorcycle)
-    #             if not created:
-    #                 cart_item.quantity += form.cleaned_data['quantity']
-    #                 cart_item.save()
-    #
-    #     return redirect('motorcycles:show_main')
-
 
 class MotoSearch(View):
     """

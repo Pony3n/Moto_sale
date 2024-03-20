@@ -2,6 +2,7 @@ from datetime import date
 from PIL import Image
 import os
 
+from django.utils import timezone
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator, EmailValidator
@@ -84,7 +85,7 @@ class MotoUser(AbstractBaseUser, PermissionsMixin):
         validators=[
             MinValueValidator(limit_value=date(1900, 1, 1),
                               message='Дата рождения не может быть ранее 1900 года.'),
-            MaxValueValidator(limit_value=date.today(),
+            MaxValueValidator(limit_value=timezone.now().date(),
                               message='Дата рождения не может быть в будущем.'),
         ]
     )

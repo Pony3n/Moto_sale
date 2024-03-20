@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate
 from django import forms
 
 from .models import MotoUser
+from motorcycles.models import Motorcycle
 
 
 class MotoUserCreationForm(forms.ModelForm):
@@ -33,6 +34,7 @@ class MotoUserLoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
     def __init__(self, *args, **kwargs):
+        self.user = None
         self.request = kwargs.pop('request', None)
         super(MotoUserLoginForm, self).__init__(*args, **kwargs)
 
@@ -50,3 +52,21 @@ class MotoUserLoginForm(forms.Form):
 
     def get_user(self):
         return self.user if hasattr(self, 'user') else None
+
+
+class MotoUserCreateMotorcycleForm(forms.ModelForm):
+    class Meta:
+        model = Motorcycle
+        fields = ['model_name',
+                  'moto_type',
+                  'date_of_issue',
+                  'engine',
+                  'transmission',
+                  'status',
+                  'price',
+                  'seller_comment',
+                  'image'
+                  ]
+        widgets = {
+            'moto_type': forms.Select(choices=Motorcycle.TYPE_CHOICES)
+        }
