@@ -6,6 +6,10 @@ from motorcycles.models import Motorcycle
 
 
 class MotoUserCreationForm(forms.ModelForm):
+    """
+    Форма для создания пользователя.
+    Пароль указывается дважды.
+    """
 
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
@@ -22,6 +26,9 @@ class MotoUserCreationForm(forms.ModelForm):
                   'avatar',]
 
     def clean_password2(self):
+        """
+        Метод отслеживающий совпадения паролей.
+        """
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
@@ -30,6 +37,10 @@ class MotoUserCreationForm(forms.ModelForm):
 
 
 class MotoUserLoginForm(forms.Form):
+    """
+    Форма отвечающая за авторизацию пользователей.
+    В случае неверных данных(которых нет в БД) выводит сообщение об ошибке и позволяет попробовать снова.
+    """
     login = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
@@ -55,6 +66,9 @@ class MotoUserLoginForm(forms.Form):
 
 
 class MotoUserCreateMotorcycleForm(forms.ModelForm):
+    """
+    Форма для создания мотоцикла пользователем.
+    """
     class Meta:
         model = Motorcycle
         fields = ['model_name',

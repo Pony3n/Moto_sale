@@ -10,7 +10,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 
 class MotoUserManager(BaseUserManager):
-    """ Менеджер для моей модели пользователей """
+    """ Менеджер для модели пользователей """
 
     def create_user(self,
                     email,
@@ -64,7 +64,10 @@ class MotoUserManager(BaseUserManager):
 class MotoUser(AbstractBaseUser, PermissionsMixin):
     """
     Модель пользователя сайта.
-    Включает в себя поля необходимые для создания объекта пользователя
+    Включает в себя поля: email, логин, аватар, имя, фамилия, дата рождения, предпочтения и телефон.
+    По-дефолту под капотом устанавливаются настройки staff и superuser False.
+    Все поля, кроме аватара обязательны.
+    Присутствует валидация пароля и email.
     """
     TYPE_CHOICES = [
         ("КЛАС", "Классика"),

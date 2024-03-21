@@ -1,8 +1,6 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib import messages
 
 from moto_cart.models import CartItem, Cart
 from .models import Motorcycle
@@ -11,7 +9,8 @@ from .forms import MotorcyclesSearchForm, MotoAddToCartForm
 
 class MainView(View):
     """
-    Отображает главную страницу со списком всех мотоциклов
+    Отображает главную страницу со списком всех мотоциклов.
+    Так же есть пагинация, исчисляемая 6-ю объектами.
     """
     items_per_page = 6
     template_name = 'motorcycles/index.html'
@@ -90,14 +89,25 @@ class MotoSearch(View):
 
 
 def show_about(request):
+    """
+    Отображает страницу "О нас".
+    """
     return render(request, 'motorcycles/about.html')
 
 
 def show_contact(request):
+    """
+    Отображает страницу с контактами.
+    """
     return render(request, 'motorcycles/contact.html')
 
 
 class MotorcycleDetailView(View):
+    """
+    Отображает детальную страницу мотоцикла.
+    Так же на странице есть возможность добавлять мотоциклы в корзину.
+    В случае ее отсутствия создает новую.
+    """
     template_name = "motorcycles/motorcycle_detail.html"
 
     def get(self, request, *args, **kwargs):

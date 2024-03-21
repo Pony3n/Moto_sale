@@ -5,6 +5,10 @@ from moto_user.models import MotoUser
 
 
 class Cart(models.Model):
+    """
+    Модель корзины, включает в себя поля: пользователя, мотоциклов и адрес доставки.
+    Так же добавлен метод подсчета цены всех мотоциклов в корзине.
+    """
     user = models.ForeignKey(MotoUser, on_delete=models.CASCADE)
     motorcycles = models.ManyToManyField(Motorcycle, through='CartItem')
     delivery_address = models.TextField(blank=True, null=True)
@@ -16,6 +20,11 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
+    """
+    Класс отвечающий за объекты в корзине.
+    Помимо полей корзины(к которой относится объект), мотоцикла и количества,
+    Так же имеет метода подсчета общей стоимости мотоцикла в указанном количестве.
+    """
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     motorcycle = models.ForeignKey(Motorcycle, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)

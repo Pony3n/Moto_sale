@@ -5,6 +5,9 @@ from .models import MotoUser
 
 
 class MotoUserAdmin(UserAdmin):
+    """
+    Кастомное отображение пользователей в админ панели, для более удобного чтения информации.
+    """
     model = MotoUser
     list_display = ['id', 'login', 'get_full_name', 'date_of_birth', 'preferences', 'is_active']
     list_filter = ['date_of_birth', 'preferences', 'is_active']
