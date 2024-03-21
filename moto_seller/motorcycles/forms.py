@@ -6,6 +6,10 @@ from .models import Motorcycle
 
 
 class MotorcyclesSearchForm(forms.Form):
+    """
+    Форма, отвечающая за поиск мотоциклов на сайте.
+    Включает в себя диапазон года, цену и тип мотоцикла.
+    """
     TYPE_CHOICES = Motorcycle.TYPE_CHOICES
     search_query = forms.CharField(max_length=90, required=False, label='Найди свою мечту!')
     min_date_of_issue = forms.IntegerField(
@@ -27,6 +31,10 @@ class MotorcyclesSearchForm(forms.Form):
 
 
 class MotoAddToCartForm(forms.ModelForm):
+    """
+    Форма, отвечающая за добавление мотоцикла в корзину.
+    Включает в себя мотоцикл и число, которое предполагается добавить.
+    """
     motorcycle = forms.ModelChoiceField(queryset=Motorcycle.objects.all(), widget=forms.HiddenInput(), required=False)
     quantity = forms.IntegerField(label='Количество',
                                   required=True,

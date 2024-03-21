@@ -3,6 +3,10 @@ from .models import Motorcycle
 
 
 class MotorcycleSerializer(serializers.ModelSerializer):
+    """
+    Так как корзина написана с использованием DRF, а Motorcycle - модель, которую она использует
+    Этот сериализатор, формирует данные мотоциклов для корзины.
+    """
     class Meta:
         model = Motorcycle
         fields = ['id',
@@ -14,5 +18,5 @@ class MotorcycleSerializer(serializers.ModelSerializer):
                   'status',
                   'seller_comment',
                   'price',
-                  'image'
+                  'image',
                   ]

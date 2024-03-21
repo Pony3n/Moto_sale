@@ -2,15 +2,17 @@ from rest_framework import viewsets
 from django.shortcuts import redirect, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-from django.views.generic.edit import FormView
 
-from .forms import CartItemQuantityForm, DeliveryAddressForm
+from .forms import DeliveryAddressForm
 from .models import Cart, CartItem
 from .serializers import CartSerializer, CartItemSerializer
 from motorcycles.models import Motorcycle
 
 
 class CartViewSet(viewsets.ModelViewSet):
+    """
+    Представление отвечающее за отображение данных о корзине в формате JSON.
+    """
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
 
@@ -20,6 +22,9 @@ class CartViewSet(viewsets.ModelViewSet):
 
 
 class CartItemViewSet(viewsets.ModelViewSet):
+    """
+    Представление отвечающее за отображение данных об объектах в корзине в формате JSON.
+    """
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
 
@@ -42,6 +47,10 @@ class CartItemViewSet(viewsets.ModelViewSet):
 
 
 class MotoUserCartView(LoginRequiredMixin, View):
+    """
+    Представление отвечающее за отображение корзины пользователю.
+    Так же позволяет пользователю на этой странице добавить адрес доставки.
+    """
     template_name = 'moto_cart/moto_user_cart.html'
 
     def get(self, request, *args, **kwargs):
@@ -57,6 +66,10 @@ class MotoUserCartView(LoginRequiredMixin, View):
         return render(request, self.template_name, context=context)
 
     def post(self, request, *args, **kwargs):
+        """
+        Метод, позволяющий пользователю обновить адрес доставки, затем
+        обновляет страницу с актуальными данными.
+        """
         form = DeliveryAddressForm(request.POST)
         if form.is_valid():
             cart = Cart.objects.get_or_create(user=request.user)[0]
@@ -64,13 +77,3 @@ class MotoUserCartView(LoginRequiredMixin, View):
             cart.save()
             return redirect('moto_user_cart')
 
-
-class MotoUserCartUpdateView(LoginRequiredMixin, FormView):
-    template_name = 'moto_cart/moto_user_cart.html'
-    form_class = CartItemQuantityForm
-
-    def form_valid(self, form):
-        cart_item = CartItem.objects.get(id=form.cleaned_data['cart_item_id'])
-        cart_item.quantity = form.cleaned_data['quantity']
-        cart_item.save()
-        return redirect('moto_cart:moto_user_cart')

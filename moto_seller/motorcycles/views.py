@@ -1,8 +1,6 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib import messages
 
 from moto_cart.models import CartItem, Cart
 from .models import Motorcycle
@@ -11,7 +9,8 @@ from .forms import MotorcyclesSearchForm, MotoAddToCartForm
 
 class MainView(View):
     """
-    Отображает главную страницу со списком всех мотоциклов
+    Отображает главную страницу со списком всех мотоциклов.
+    Так же есть пагинация, исчисляемая 6-ю объектами.
     """
     items_per_page = 6
     template_name = 'motorcycles/index.html'
@@ -35,18 +34,6 @@ class MainView(View):
         }
 
         return render(request, self.template_name, context)
-
-    # def post(self, request, *args, **kwargs):
-    #     form = MotoAddToCartForm(request.POST)
-    #     if form.is_valid():
-    #         motorcycle = get_object_or_404(Motorcycle, pk=form.cleaned_data['motorcycle_id'])
-    #         if request.user.is_authenticated and hasattr(request.user, 'cart'):
-    #             cart_item, created = CartItem.objects.get_or_create(cart=request.user.cart, motorcycle=motorcycle)
-    #             if not created:
-    #                 cart_item.quantity += form.cleaned_data['quantity']
-    #                 cart_item.save()
-    #
-    #     return redirect('motorcycles:show_main')
 
 
 class MotoSearch(View):
@@ -102,14 +89,25 @@ class MotoSearch(View):
 
 
 def show_about(request):
+    """
+    Отображает страницу "О нас".
+    """
     return render(request, 'motorcycles/about.html')
 
 
 def show_contact(request):
+    """
+    Отображает страницу с контактами.
+    """
     return render(request, 'motorcycles/contact.html')
 
 
 class MotorcycleDetailView(View):
+    """
+    Отображает детальную страницу мотоцикла.
+    Так же на странице есть возможность добавлять мотоциклы в корзину.
+    В случае ее отсутствия создает новую.
+    """
     template_name = "motorcycles/motorcycle_detail.html"
 
     def get(self, request, *args, **kwargs):

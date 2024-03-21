@@ -7,6 +7,8 @@ from django.db import models
 from django.conf import settings
 from django.core.files import File
 
+from moto_user.models import MotoUser
+
 
 def validate_price(value):          #TODO Неработает валидация
     if isinstance(value, str):
@@ -20,6 +22,9 @@ def validate_price(value):          #TODO Неработает валидаци�
 
 
 class YearField(models.IntegerField):
+    """
+    Кастомные методы для валидации года в пределах 1900г. и нынешнего
+    """
     def validate_year(self, value, models_instance):
         super().validate(value, models_instance)
         if value < 1900 or value > datetime.datetime.now().year:
@@ -32,6 +37,15 @@ class YearField(models.IntegerField):
 
 
 class Motorcycle(models.Model):
+    """
+    Модель мотоциклов.
+    Включает в себя такие поля, как: Имя модели, тип мотоцикла,
+    дата производства, двигатель, коробка передач, статус, цена и создатель лота.
+    Так же, реализован метод, в котором, если картинка не передается при создании лота, то берется картинка
+    установленная по умолчанию.
+    Строка возвращает название модели.
+    Определен Meta class для единственного и множественного числа.
+    """
     TYPE_CHOICES = [
         ("КЛАС", "Классика"),
         ("СП", "Спортивный Мотоцикл"),
@@ -59,8 +73,12 @@ class Motorcycle(models.Model):
     image = models.ImageField(blank=True,
                               null=True,
                               upload_to='images/')   #TODO Сделать картинки так, чтобы их можно было отдавать галлереей
+    creator = models.ForeignKey(MotoUser, on_delete=models.CASCADE, default=1)
 
     def save(self, *args, **kwargs):
+        """
+        Метод отвечающий за установление картинки по умолчанию, в случае, если картинка не была передана.
+        """
         if not self.image:
             default_image_path = os.path.join(settings.BASE_DIR, 'motorcycles',
                                               'static',

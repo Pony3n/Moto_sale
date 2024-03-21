@@ -37,3 +37,77 @@ h2 {
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
 }
+
+.create-motorcycle-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #808080;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.create-motorcycle-link:hover {
+    background-color: #45a049;
+}
+
+.user-motorcycles {
+    margin-top: 30px;
+}
+
+.motorcycle-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.motorcycle-item p {
+    margin: 0;
+}
+
+.model-name {
+    font-weight: bold;
+}
+
+.date-of-issue, .price {
+    margin-left: 20px;
+}
+
+.motorcycle-image {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+    margin-left: auto;
+}
+
+.motorcycle-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+
+.model-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.model-name a {
+    color: #282828;
+    text-decoration: none; /* Убираем подчеркивание по умолчанию */
+}
+
+.model-name a:hover {
+    text-decoration: underline; /* Подчеркиваем при наведении */
+}

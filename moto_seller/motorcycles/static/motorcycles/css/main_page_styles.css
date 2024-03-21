@@ -222,4 +222,6 @@
 .cart-icon img {
     max-width: 60px; /* Увеличение максимальной ширины изображения */
     height: auto; /* Автоматическое определение высоты */
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

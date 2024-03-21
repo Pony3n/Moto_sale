@@ -1,0 +1,47 @@
+{% extends 'motorcycles/base.html' %}
+
+{% block content %}
+<div class="create-motorcycle-form">
+    <h2>Добавить новый мотоцикл</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_model_name">Модель:</label>
+            {{ form.model_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_moto_type">Тип мотоцикла:</label>
+            {{ form.moto_type }}
+        </div>
+        <div class="form-group">
+            <label for="id_date_of_issue">Дата выпуска:</label>
+            {{ form.date_of_issue }}
+        </div>
+        <div class="form-group">
+            <label for="id_engine">Двигатель:</label>
+            {{ form.engine }}
+        </div>
+        <div class="form-group">
+            <label for="id_transmission">Трансмиссия:</label>
+            {{ form.transmission }}
+        </div>
+        <div class="form-group">
+            <label for="id_status">Статус:</label>
+            {{ form.status }}
+        </div>
+        <div class="form-group">
+            <label for="id_price">Цена:</label>
+            {{ form.price }}
+        </div>
+        <div class="form-group">
+            <label for="id_seller_comment">Комментарий продавца:</label>
+            {{ form.seller_comment }}
+        </div>
+        <div class="form-group">
+            <label for="id_image">Изображение:</label>
+            {{ form.image }}
+        </div>
+        <button type="submit" class="btn btn-primary">Создать мотоцикл</button>
+    </form>
+</div>
+{% endblock %}

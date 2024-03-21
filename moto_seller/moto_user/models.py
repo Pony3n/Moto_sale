@@ -2,6 +2,7 @@ from datetime import date
 from PIL import Image
 import os
 
+from django.utils import timezone
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator, EmailValidator
@@ -9,7 +10,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 
 class MotoUserManager(BaseUserManager):
-    """ Менеджер для моей модели пользователей """
+    """ Менеджер для модели пользователей """
 
     def create_user(self,
                     email,
@@ -63,7 +64,10 @@ class MotoUserManager(BaseUserManager):
 class MotoUser(AbstractBaseUser, PermissionsMixin):
     """
     Модель пользователя сайта.
-    Включает в себя поля необходимые для создания объекта пользователя
+    Включает в себя поля: email, логин, аватар, имя, фамилия, дата рождения, предпочтения и телефон.
+    По-дефолту под капотом устанавливаются настройки staff и superuser False.
+    Все поля, кроме аватара обязательны.
+    Присутствует валидация пароля и email.
     """
     TYPE_CHOICES = [
         ("КЛАС", "Классика"),
@@ -84,7 +88,7 @@ class MotoUser(AbstractBaseUser, PermissionsMixin):
         validators=[
             MinValueValidator(limit_value=date(1900, 1, 1),
                               message='Дата рождения не может быть ранее 1900 года.'),
-            MaxValueValidator(limit_value=date.today(),
+            MaxValueValidator(limit_value=timezone.now().date(),
                               message='Дата рождения не может быть в будущем.'),
         ]
     )
