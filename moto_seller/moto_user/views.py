@@ -3,7 +3,7 @@ import logging
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.views import LogoutView, LoginView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
@@ -105,3 +105,19 @@ class MotoUserCreateMotorcycle(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('moto_user:profile', kwargs={'pk': self.request.user.pk})
+
+
+class MotoUserUpdateMotorcycle(UpdateView):
+    model = Motorcycle
+    template_name = 'moto_user/user_update_motorcycle.html'
+    form_class = MotoUserCreateMotorcycleForm
+
+    def get_success_url(self):
+        return reverse_lazy('moto_user:profile', kwargs={'pk': self.request.user.pk})
+
+    def dispatch(self, request, *args, **kwargs):
+        motorcycle = self.get_object()
+
+        if motorcycle.creator != request.user:
+            return redirect(reverse_lazy('moto_user:profile', kwargs={'pk': self.request.user.pk}))
+        return super().dispatch(request, *args, **kwargs)

@@ -7,7 +7,7 @@ from moto_cart.urls import urlpatterns as moto_cart_urlpatterns
 
 urlpatterns = ([
     path('admin/', admin.site.urls),
-    path('moto/', include("motorcycles.urls")),
+    path('', include("motorcycles.urls")),
     path('user/', include('moto_user.urls')),
     path('cart/', include(moto_cart_urlpatterns))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

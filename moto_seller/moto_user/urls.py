@@ -5,7 +5,8 @@ from .views import (MotoUserRegistrationView,
                     MotoUserProfileView,
                     MotoUserLogoutView,
                     MotoUserLoginView,
-                    MotoUserCreateMotorcycle)
+                    MotoUserCreateMotorcycle,
+                    MotoUserUpdateMotorcycle)
 
 app_name = 'moto_user'
 
@@ -15,4 +16,5 @@ urlpatterns = [
     path('login/', MotoUserLoginView.as_view(), name='login'),
     path('logout/', MotoUserLogoutView.as_view(), name='logout'),
     path('create_motorcycle/', MotoUserCreateMotorcycle.as_view(), name='create_motorcycle'),
+    path('update_motorcycle/<int:pk>', MotoUserUpdateMotorcycle.as_view(), name='update_motorcycle'),
 ]

@@ -16,20 +16,29 @@
         <a href="{% url 'moto_user:create_motorcycle' %}" class="create-motorcycle-link">Добавить мотоцикл</a>
     </section>
 
-    <section class="user-motorcycles">
+<section class="user-motorcycles">
     <h3>Ваши мотоциклы</h3>
     <ul class="motorcycle-list">
         {% for motorcycle in motorcycles %}
             <li class="motorcycle-item">
-                <p class="model-name">
-                    <a href="{% url 'motorcycles:motorcycle_detail' pk=motorcycle.pk %}" class="model-name">Название модели: {{ motorcycle.model_name }}</a>
-                </p>
-                <p class="date-of-issue">Год: {{ motorcycle.date_of_issue }}</p>
-                <p class="price">Цена: {{ motorcycle.price }}</p>
-                <img class="motorcycle-image" src="{{ motorcycle.image.url }}" alt="Изображение мотоцикла">
+                <div class="motorcycle-info">
+                    <a href="{% url 'motorcycles:motorcycle_detail' pk=motorcycle.pk %}">
+                        <img src="{{ motorcycle.image.url }}" alt="Изображение мотоцикла" class="motorcycle-image">
+                    </a>
+                    <p class="model-name">
+                        <a href="{% url 'motorcycles:motorcycle_detail' pk=motorcycle.pk %}" class="model-name">Название модели: {{ motorcycle.model_name }}</a>
+                    </p>
+                    <p class="date-of-issue">Год: {{ motorcycle.date_of_issue }}</p>
+                    <p class="price">Цена: {{ motorcycle.price }}</p>
+                </div>
+                <div class="update-motorcycle">
+                    <a href="{% url 'moto_user:update_motorcycle' pk=motorcycle.pk %}" class="btn-primary">Редактировать</a>
+                </div>
             </li>
         {% endfor %}
     </ul>
 </section>
+
+
 
 {% endblock %}
