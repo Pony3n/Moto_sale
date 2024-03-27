@@ -1,6 +1,9 @@
 .create-motorcycle-form {
     margin: 20px auto;
     width: 50%;
+    background-color: #dfdfdf;
+    padding: 20px;
+    border-radius: 8px;
 }
 
 .create-motorcycle-form h2 {

@@ -1,0 +1,79 @@
+.edit-motorcycle-form {
+    margin: 20px auto;
+    width: 50%;
+    background-color: #dfdfdf;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.edit-motorcycle-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.edit-motorcycle-form .form-group {
+    margin-bottom: 15px;
+}
+
+.edit-motorcycle-form label {
+    display: block;
+    font-weight: bold;
+}
+
+.edit-motorcycle-form select,
+.edit-motorcycle-form input[type="text"],
+.edit-motorcycle-form input[type="date"],
+.edit-motorcycle-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background-color: #fff; /* Фон для полей ввода */
+    color: #333; /* Цвет текста для полей ввода */
+}
+
+.edit-motorcycle-form button {
+    padding: 10px 20px;
+    background-color: #808080;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.edit-motorcycle-form button:hover {
+    background-color: #45a049;
+}
+
+
+.edit-motorcycle-image {
+    width: 350px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.edit-image-input label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.edit-image-input img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+.edit-image-input input[type="file"] {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/* Скрыть ссылку "Очистить" по умолчанию */
+.edit-image-input a.clear-image-link {
+    display: none;
+}
