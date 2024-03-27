@@ -1,5 +1,8 @@
+import json
+
+from django.http import JsonResponse
 from rest_framework import viewsets
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 
@@ -77,3 +80,31 @@ class MotoUserCartView(LoginRequiredMixin, View):
             cart.save()
             return redirect('moto_user_cart')
 
+
+class UpdateCartItemView(View):
+    """
+    Представление для обновления количества товара в корзине.
+    """
+    def post(self, request):
+        data = json.loads(request.body)
+        cart_item_id = data.get('cart_item_id')
+        quantity = int(data.get('quantity'))
+
+        cart_item = get_object_or_404(CartItem, id=cart_item_id)
+        cart_item.quantity = quantity
+        cart_item.save()
+
+        return JsonResponse({'success': True})
+
+
+class DeleteCartItemView(View):
+    """
+    Представление для удаления товара из корзины.
+    """
+    def post(self, request):
+        data = json.loads(request.body)
+        cart_item_id = data.get('cart_item_id')
+        cart_item = get_object_or_404(CartItem, id=cart_item_id)
+        cart_item.delete()
+
+        return JsonResponse({'success': True})
