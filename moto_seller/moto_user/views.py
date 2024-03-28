@@ -115,9 +115,16 @@ class MotoUserUpdateMotorcycle(UpdateView):
     def get_success_url(self):
         return reverse_lazy('moto_user:profile', kwargs={'pk': self.request.user.pk})
 
+    def get_object(self, queryset=None):
+        try:
+            moto = Motorcycle.objects.get(pk=self.kwargs['pk'])
+            return moto
+        except Motorcycle.DoesNotExist:
+            return None
+
     def dispatch(self, request, *args, **kwargs):
         motorcycle = self.get_object()
-
-        if motorcycle.creator != request.user:
+        if motorcycle is None or motorcycle.creator != request.user:
             return redirect(reverse_lazy('moto_user:profile', kwargs={'pk': self.request.user.pk}))
         return super().dispatch(request, *args, **kwargs)
+

@@ -1,0 +1,51 @@
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.about-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.about-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px; /* Отступ снизу блока */
+}
+
+.main-content {
+    flex: 1;
+    margin-right: 20px; /* Примерный отступ между блоками */
+}
+
+.portrait {
+    width: 200px; /* Примерная ширина портрета */
+}
+
+.additional-content {
+    margin-top: 20px; /* Примерный отступ между основным контентом и дополнительным */
+}
+
+.about-portrait {
+    float: right;
+    margin-left: 20px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.about-motorcycle {
+    display: flex;
+    margin-top: 20px;
+    max-width: 600px;
+    width: 100%;
+}

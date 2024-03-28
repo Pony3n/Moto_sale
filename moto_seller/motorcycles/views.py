@@ -1,6 +1,8 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.urls import reverse
 
 from moto_cart.models import CartItem, Cart
 from .models import Motorcycle
@@ -106,12 +108,16 @@ class MotorcycleDetailView(View):
     """
     Отображает детальную страницу мотоцикла.
     Так же на странице есть возможность добавлять мотоциклы в корзину.
-    В случае ее отсутствия создает новую.
+    В случае отсутствия корзины создает новую.
     """
     template_name = "motorcycles/motorcycle_detail.html"
 
     def get(self, request, *args, **kwargs):
-        moto = Motorcycle.objects.get(pk=self.kwargs['pk'])
+        try:
+            moto = Motorcycle.objects.get(pk=self.kwargs['pk'])
+        except Motorcycle.DoesNotExist:
+            return HttpResponseRedirect(reverse('motorcycles:show_main'))
+
         form = MotoAddToCartForm(initial={'motorcycle': moto.id})
         auth_message = "Чтобы добавить товар в корзину, пожалуйста, войдите или зарегистрируйтесь."
 

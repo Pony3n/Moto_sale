@@ -1,0 +1,20 @@
+.contact-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.contact-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.contact-info {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.contact-info strong {
+    font-weight: bold;
+}
