@@ -1,6 +1,6 @@
 # Мотоциклы онлайн магазин
 
-Этот проект - онлайн магазин мотоциклов, разработанный с использованием Django.
+Этот проект - онлайн магазин мотоциклов, разработанный с использованием Django, DRF, PostgreSQL etc.
 
 ## Описание
 
@@ -45,6 +45,12 @@ python manage.py runserver
 python manage.py create_superuser
 ```
 
+Так же, чтобы вручную не создавать доп. пользователей и лоты мотоциклов, 
+используйте фикстуры приложений moto_user и motorcycles:
+```
+python manage.py loaddata motorcycles.json
+python manage.py loaddata moto_user.json
+```
 ## Автор
 
 - Молодцов Андрей - разработчик программного кода - molodtsov_a_p@mail.ru

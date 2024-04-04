@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-z-b!9u=@o)g9ca7f*b2sth)a(0dd5ow%u+mf*)#_15qdt8!ftv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'rest_framework',
     'motorcycles',
     'moto_user',
@@ -84,7 +85,8 @@ DATABASES = {
         'NAME': 'django_moto_seller_db',
         'USER': 'moto_druce',
         'PASSWORD': 'pa$$word',
-        'HOST': '127.0.0.1',
+        'HOST': 'db',
+        # 'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
