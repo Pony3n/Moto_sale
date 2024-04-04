@@ -1,5 +1,9 @@
 FROM python:3.10
 
+RUN apt-get update && \
+    apt-get install -y nano vim lsof && \
+    rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt /app/requirements.txt
 
 WORKDIR /app
@@ -15,3 +19,4 @@ COPY . /app
 RUN echo "Source code copied successfully"
 
 RUN echo "Please, accept migrations and create superuser inside the container, using 'python manage.py create_superuser' command"
+
