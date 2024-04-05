@@ -4,9 +4,9 @@ RUN apt-get update && \
     apt-get install -y nano vim lsof && \
     rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /app/requirements.txt
+COPY requirements.txt /moto_seller/requirements.txt
 
-WORKDIR /app
+WORKDIR /moto_seller
 
 RUN echo "Installing Python dependencies" && \
     pip install -r requirements.txt && \
@@ -14,7 +14,7 @@ RUN echo "Installing Python dependencies" && \
 
 RUN echo "Copying source code"
 
-COPY . /app
+COPY . /moto_seller
 
 RUN echo "Source code copied successfully"
 
