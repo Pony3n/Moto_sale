@@ -1,6 +1,6 @@
 # Мотоциклы онлайн магазин
 
-Этот проект - онлайн магазин мотоциклов, разработанный с использованием Django, DRF, PostgreSQL etc.
+Этот проект - онлайн магазин мотоциклов, разработанный с использованием Django, DRF, PostgreSQL, Docker etc.
 
 ## Описание
 
@@ -50,25 +50,28 @@ git clone https://github.com/Pony3n/Moto_sale.git
 ```
 docker compose up
 ```
-3. Перейдите по ссылке:
-[Moto seller](http://localhost:8000)
 
 ## Использование
 
-После запуска сервера вы сможете открыть приложение в вашем браузере по адресу http://localhost:8000/.
+После запуска сервера вы сможете открыть приложение в вашем браузере по адресу [Moto seller](http://localhost:8000).
 
-Информация о супер-пользователе находится moto_user -> management -> commands -> create_superuser
+Если вы запускаете проект, используя Docker compose, то зайдите внутри контейнера с приложением:
+```
+docker exec -it <contained_ID> bash
+```
+И примените следующие команды:
 
 Для автоматического создания супер-пользователя, введите команду:
 ```
 python manage.py create_superuser
 ```
+Информация о супер-пользователе находится moto_user -> management -> commands -> create_superuser
+
 
 Так же, чтобы вручную не создавать доп. пользователей и лоты мотоциклов, 
 используйте фикстуры приложений moto_user и motorcycles:
 ```
-python manage.py loaddata motorcycles.json
-python manage.py loaddata moto_user.json
+python manage.py load_fixtures
 ```
 ## Автор
 
