@@ -10,7 +10,7 @@ from django.core.files import File
 from moto_user.models import MotoUser
 
 
-def validate_price(value):          #TODO Неработает валидация
+def validate_price(value):
     if isinstance(value, str):
         value = value.replace(',', '').replace(' ', '')
     if value < Decimal('0'):
@@ -72,7 +72,7 @@ class Motorcycle(models.Model):
     seller_comment = models.TextField(blank=True, verbose_name='Комментарий продавца')
     image = models.ImageField(blank=True,
                               null=True,
-                              upload_to='images/')   #TODO Сделать картинки так, чтобы их можно было отдавать галлереей
+                              upload_to='images/')
     creator = models.ForeignKey(MotoUser, on_delete=models.CASCADE, default=1)
 
     def save(self, *args, **kwargs):
@@ -104,9 +104,3 @@ class Motorcycle(models.Model):
     class Meta:
         verbose_name = 'Мотоцикл'
         verbose_name_plural = 'Мотоциклы'
-
-
-#TODO Написать так поле price, чтобы оно принимало значения с пробелами между цифр
-
-
-
