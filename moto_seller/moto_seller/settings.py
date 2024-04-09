@@ -38,11 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     'rest_framework',
     'motorcycles',
     'moto_user',
-    'moto_cart'
+    'moto_cart',
+    'moto_news',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,8 +90,8 @@ DATABASES = {
         'NAME': 'django_moto_seller_db',
         'USER': 'moto_druce',
         'PASSWORD': 'pa$$word',
-        'HOST': 'db',
-        # 'HOST': '127.0.0.1',
+        # 'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
@@ -137,6 +142,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "motorcycles/static"),
     os.path.join(BASE_DIR, "moto_user/static"),
     os.path.join(BASE_DIR, "moto_cart/static"),
+    os.path.join(BASE_DIR, "moto_news/static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
