@@ -35,3 +35,6 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f'Лот: {self.motorcycle}'
+
+    def get_model_name(self):
+        return self.motorcycle.model_name
