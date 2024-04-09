@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'moto_user/css/update_motorcycle_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/about_page_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'motorcycles/css/contact_page_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'moto_news/css/news_page_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'moto_news/css/news_detail_styles.css' %}">
     <title>Moto seller</title>
 </head>
 <body>
@@ -26,6 +28,7 @@
         <li><a href="{% url 'motorcycles:show_main' %}">Мотоциклы</a></li>
         <li><a href="{% url 'motorcycles:show_about' %}">О нас</a></li>
         <li><a href="{% url 'motorcycles:show_contact' %}">Контакты</a></li>
+        <li><a href="{% url 'moto_news:news_page' %}">Новости</a></li>
     </ul>
     {% if user.is_authenticated %}
         <div class="auth-buttons">
