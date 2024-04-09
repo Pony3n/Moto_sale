@@ -38,12 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     'rest_framework',
     'motorcycles',
     'moto_user',
     'moto_cart',
     'moto_news',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
