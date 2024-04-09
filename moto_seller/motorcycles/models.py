@@ -87,16 +87,8 @@ class Motorcycle(models.Model):
                                               "default_moto.jpg")
             with open(default_image_path, 'rb') as f:
                 self.image.save('default_moto.jpg', File(f), save=False)
+        self.price = Decimal(str(self.price).replace(' ', '').replace(',', '.'))
         super().save(*args, **kwargs)
-
-    def clean(self):
-        super().clean()
-        if self.price:
-            cleaned_price = str(self.price).replace(',', '').replace(' ', '')
-            try:
-                self.price = Decimal(cleaned_price)
-            except DecimalException:
-                raise ValidationError({'price': "Неверный формат цены"})
 
     def __str__(self):
         return self.model_name
