@@ -13,3 +13,4 @@ class CartAdmin(admin.ModelAdmin):
 
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartItem, CartItemsAdmin)
+#TODO Добавить полей для этих админок
