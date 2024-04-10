@@ -18,6 +18,10 @@ class Cart(models.Model):
         total = sum(item.quantity * item.motorcycle.price for item in cart_items)
         return total
 
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
+
 
 class CartItem(models.Model):
     """

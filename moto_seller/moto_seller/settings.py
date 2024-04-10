@@ -90,8 +90,8 @@ DATABASES = {
         'NAME': 'django_moto_seller_db',
         'USER': 'moto_druce',
         'PASSWORD': 'pa$$word',
-        'HOST': 'db',
-        # 'HOST': '127.0.0.1',
+        # 'HOST': 'db',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
