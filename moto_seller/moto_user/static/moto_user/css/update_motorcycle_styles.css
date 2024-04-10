@@ -73,7 +73,11 @@
     margin-bottom: 10px;
 }
 
-/* Скрыть ссылку "Очистить" по умолчанию */
+
 .edit-image-input a.clear-image-link {
     display: none;
+}
+
+#delete-motorcycle-btn:hover {
+    background-color: #DC143C;
 }

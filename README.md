@@ -71,7 +71,10 @@ python manage.py create_superuser
 ```
 Информация о супер-пользователе находится moto_user -> management -> commands -> create_superuser
 
-
+Так же, нужно вручную накатить миграции:
+```
+python manage.py migrate
+```
 Так же, чтобы вручную не создавать доп. пользователей, лоты мотоциклов и новости - 
 используйте фикстуры приложений moto_user, motorcycles и moto_news:
 ```

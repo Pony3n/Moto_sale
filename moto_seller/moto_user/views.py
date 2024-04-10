@@ -1,14 +1,19 @@
 import logging
+import os.path
 
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.contrib.auth.views import LogoutView, LoginView
+from django.views.decorators.http import require_http_methods
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login
 from django.contrib import messages
 
+from moto_seller import settings
 from motorcycles.models import Motorcycle
 from .forms import MotoUserCreationForm, MotoUserLoginForm, MotoUserCreateMotorcycleForm
 
@@ -123,8 +128,16 @@ class MotoUserUpdateMotorcycle(UpdateView):
             return None
 
     def dispatch(self, request, *args, **kwargs):
+        if request.method == 'DELETE':
+            return self.delete(request, *args, **kwargs)
         motorcycle = self.get_object()
         if motorcycle is None or motorcycle.creator != request.user:
             return redirect(reverse_lazy('moto_user:profile', kwargs={'pk': self.request.user.pk}))
         return super().dispatch(request, *args, **kwargs)
 
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.creator == request.user:
+            self.object.delete()
+            return JsonResponse({'redirect_url': reverse_lazy('moto_user:profile', kwargs={'pk': self.request.user.pk})})
+        return JsonResponse({'error': 'Вы не имеете права удалять этот объект'}, status=403)

@@ -46,6 +46,32 @@
             {{ form.image }}
         </div>
         <button type="submit" class="btn btn-primary">Сохранить мотоцикл</button>
+        <button type="button" class="btn btn-danger" onclick="confirmDelete()">Удалить мотоцикл</button>
     </form>
 </div>
+<script>
+function confirmDelete() {
+    if (confirm('Вы уверены, что хотите удалить этот мотоцикл?')) {
+        fetch("{% url 'moto_user:update_motorcycle' pk=form.instance.pk %}", {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Ошибка удаления мотоцикла');
+            }
+            return response.json();
+        })
+        .then(data => {
+            window.location.href = data.redirect_url;
+        })
+        .catch(error => {
+            console.error('Произошла ошибка:', error);
+            alert('Произошла ошибка при удалении мотоцикла');
+        });
+    }
+}
+</script>
 {% endblock %}
