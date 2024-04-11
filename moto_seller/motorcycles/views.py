@@ -18,7 +18,7 @@ class MainView(View):
     template_name = 'motorcycles/index.html'
 
     def get(self, request, *args, **kwargs):
-        motorcycles = Motorcycle.objects.all()
+        motorcycles = Motorcycle.objects.filter(status=True)
         form = MotorcyclesSearchForm(request.GET)
         page = request.GET.get('page', 1)
 

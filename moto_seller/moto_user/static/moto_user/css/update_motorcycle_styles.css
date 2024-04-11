@@ -44,7 +44,7 @@
     font-size: 16px;
 }
 
-.edit-motorcycle-form button:hover {
+.btn-primary:hover {
     background-color: #45a049;
 }
 
@@ -78,6 +78,6 @@
     display: none;
 }
 
-#delete-motorcycle-btn:hover {
+.btn-danger:hover {
     background-color: #DC143C;
 }
