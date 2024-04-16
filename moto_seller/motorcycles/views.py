@@ -9,7 +9,7 @@ from .models import Motorcycle
 from .forms import MotorcyclesSearchForm, MotoAddToCartForm
 
 
-class MainView(View):
+class MotoMainView(View):
     """
     Отображает главную страницу со списком всех мотоциклов.
     Так же есть пагинация, исчисляемая 6-ю объектами.
@@ -18,7 +18,7 @@ class MainView(View):
     template_name = 'motorcycles/index.html'
 
     def get(self, request, *args, **kwargs):
-        motorcycles = Motorcycle.objects.all()
+        motorcycles = Motorcycle.objects.filter(status=True)
         form = MotorcyclesSearchForm(request.GET)
         page = request.GET.get('page', 1)
 
@@ -90,21 +90,21 @@ class MotoSearch(View):
         return render(request, template, context)
 
 
-def show_about(request):
+def moto_show_about(request):
     """
     Отображает страницу "О нас".
     """
     return render(request, 'motorcycles/about.html')
 
 
-def show_contact(request):
+def moto_show_contact(request):
     """
     Отображает страницу с контактами.
     """
     return render(request, 'motorcycles/contact.html')
 
 
-class MotorcycleDetailView(View):
+class MotoDetailView(View):
     """
     Отображает детальную страницу мотоцикла.
     Так же на странице есть возможность добавлять мотоциклы в корзину.
