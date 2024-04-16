@@ -1,6 +1,6 @@
 import datetime
 import os
-from decimal import Decimal, DecimalException
+from decimal import Decimal, InvalidOperation
 
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -12,13 +12,13 @@ from moto_user.models import MotoUser
 
 def validate_price(value):
     if isinstance(value, str):
-        value = value.replace(',', '').replace(' ', '')
-    if value < Decimal('0'):
-        raise ValidationError('Цена не может быть отрицательной')
+        value = value.replace(',', '.').replace(' ', '')
     try:
-        value = Decimal(value)
-    except (TypeError, ValueError):
+        decimal_value = Decimal(value)
+    except InvalidOperation:
         raise ValidationError("Введите корректное значение")
+    if decimal_value < Decimal('0'):
+        raise ValidationError('Цена не может быть отрицательной')
 
 
 class YearField(models.IntegerField):
@@ -78,6 +78,7 @@ class Motorcycle(models.Model):
     def save(self, *args, **kwargs):
         """
         Метод отвечающий за установление картинки по умолчанию, в случае, если картинка не была передана.
+        Так же меняющий запятые на точки в поле цены и удаляющий пробелы.
         """
         if not self.image:
             default_image_path = os.path.join(settings.BASE_DIR, 'motorcycles',
